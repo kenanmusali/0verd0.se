@@ -1,0 +1,11 @@
+@media screen and (max-width: 767px) {
+    @import url('./mobile/text.txt');
+}
+
+@media screen and (min-width: 767px) and (max-width: 1024px) {
+    @import url('./tablet/text.txt');
+}
+
+@media screen and (min-width: 1024px) {
+    @import url('./desktop/text.txt');
+}

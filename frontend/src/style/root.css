@@ -1,0 +1,12 @@
+@import url('./font.css');
+@import url('./layout.css');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "IBM Plex Mono", monospace;
+    font-weight: 500;
+    font-style: normal;
+    /* user-select: none; */
+}
