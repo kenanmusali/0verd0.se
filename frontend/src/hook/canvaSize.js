@@ -7,12 +7,16 @@ const useCanvaSize = () => {
         height: 0,
         originalWidth: 0,
         originalHeight: 0,
-        wasResized: false
+        wasResized: false,
+        maxSize: 1000 // Add maxSize to state
     });
 
-    const calculateResizedDimensions = useCallback((width, height) => {
-        const maxSize = 1000;
-        
+    const getMaxSizeFromString = useCallback((sizeString) => {
+        const match = sizeString.match(/MAX: (\d+)PX/);
+        return match ? parseInt(match[1]) : 1000;
+    }, []);
+
+    const calculateResizedDimensions = useCallback((width, height, maxSize = 1000) => {
         if (width <= maxSize && height <= maxSize) {
             return {
                 width,
@@ -32,19 +36,36 @@ const useCanvaSize = () => {
         };
     }, []);
 
-    const updateCanvaSize = useCallback((width, height) => {
-        const resized = calculateResizedDimensions(width, height);
+    const updateCanvaSize = useCallback((width, height, maxSize = 1000) => {
+        const resized = calculateResizedDimensions(width, height, maxSize);
         
         setCanvaSize({ 
             width: resized.width, 
             height: resized.height,
             originalWidth: width,
             originalHeight: height,
-            wasResized: resized.wasResized
+            wasResized: resized.wasResized,
+            maxSize: maxSize
         });
 
         return resized;
     }, [calculateResizedDimensions]);
+
+    const changeMaxSize = useCallback((sizeString) => {
+        const newMaxSize = getMaxSizeFromString(sizeString);
+        
+        // If we have an image, recalculate dimensions with new max size
+        if (canvaSize.originalWidth > 0 && canvaSize.originalHeight > 0) {
+            updateCanvaSize(canvaSize.originalWidth, canvaSize.originalHeight, newMaxSize);
+        } else {
+            setCanvaSize(prev => ({
+                ...prev,
+                maxSize: newMaxSize
+            }));
+        }
+        
+        return newMaxSize;
+    }, [canvaSize.originalWidth, canvaSize.originalHeight, updateCanvaSize, getMaxSizeFromString]);
 
     const resetCanvaSize = useCallback(() => {
         setCanvaSize({ 
@@ -52,7 +73,8 @@ const useCanvaSize = () => {
             height: 0,
             originalWidth: 0,
             originalHeight: 0,
-            wasResized: false
+            wasResized: false,
+            maxSize: 1000
         });
     }, []);
 
@@ -60,7 +82,9 @@ const useCanvaSize = () => {
         canvaSize,
         updateCanvaSize,
         resetCanvaSize,
-        calculateResizedDimensions
+        changeMaxSize, // Add this function
+        calculateResizedDimensions,
+        getMaxSizeFromString
     };
 };
 

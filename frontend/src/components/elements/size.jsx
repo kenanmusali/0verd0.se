@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useState } from 'react'
 
-const Size = () => {
+const Size = ({ onSizeClick, currentSize = 'MAX: 1000PX' }) => {
+    const [isHovered, setIsHovered] = useState(false)
+
     return (
-        <div className="Text-Group">
+        <div 
+            className="Text-Group" 
+            onClick={onSizeClick}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
             <p style={{ whiteSpace: 'pre' }}>
                 SIZE:{'\n'}
-                [MORE OPTION]
+                {isHovered ? `(${currentSize})` : `[${currentSize}]`}
             </p>
         </div>
     )

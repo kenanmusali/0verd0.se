@@ -12,21 +12,41 @@ import Depth from '../elements/depth'
 import Midtones from '../elements/midtones'
 import Blur from '../elements/blur'
 import Size from '../elements/size'
+import SizeLinks from '../links/size' // Add this import
 import Zoom from '../elements/zoom'
 import Download from '../elements/download'
 import Footer from '../elements/footer'
 
-const Sidebar = ({ onImageUpload, zoomLevel, onZoomIn, onZoomOut }) => {
+const Sidebar = ({ 
+    onImageUpload, 
+    zoomLevel, 
+    onZoomIn, 
+    onZoomOut, 
+    onSizeChange, // Add this prop
+    currentSize = 'MAX: 1000PX' // Add default size
+}) => {
     const [showDitherLinks, setShowDitherLinks] = useState(false)
+    const [showSizeLinks, setShowSizeLinks] = useState(false) // Add this state
     const [currentDitherMethod, setCurrentDitherMethod] = useState('BITMAP')
 
     const handleDitherClick = () => {
         setShowDitherLinks(true)
+        setShowSizeLinks(false) // Close size links if open
+    }
+
+    const handleSizeClick = () => {
+        setShowSizeLinks(true)
+        setShowDitherLinks(false) // Close dither links if open
     }
 
     const handleMethodSelect = (method) => {
         setShowDitherLinks(false)
         setCurrentDitherMethod(method)
+    }
+
+    const handleSizeSelect = (size) => {
+        setShowSizeLinks(false)
+        onSizeChange(size) // Call the parent handler
     }
 
     if (showDitherLinks) {
@@ -37,6 +57,20 @@ const Sidebar = ({ onImageUpload, zoomLevel, onZoomIn, onZoomOut }) => {
                     <DitherLinks 
                         onMethodSelect={handleMethodSelect}
                         currentMethod={currentDitherMethod}
+                    />
+                </div>
+            </div>
+        )
+    }
+
+    if (showSizeLinks) {
+        return (
+            <div className='SidebarGroup' style={{ whiteSpace: 'pre' }}>
+                <div className="Section">
+                    <Mark />
+                    <SizeLinks 
+                        onMethodSelect={handleSizeSelect}
+                        currentMethod={currentSize}
                     />
                 </div>
             </div>
@@ -63,7 +97,7 @@ const Sidebar = ({ onImageUpload, zoomLevel, onZoomIn, onZoomOut }) => {
             </div>
 
             <div className="Section">
-                <Size />
+                <Size onSizeClick={handleSizeClick} currentSize={currentSize} />
                 <Zoom 
                     zoomLevel={zoomLevel}
                     onZoomIn={onZoomIn}

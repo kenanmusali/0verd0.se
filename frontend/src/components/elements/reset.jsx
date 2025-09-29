@@ -4,7 +4,7 @@ const Reset = () => {
     return (
         <div className="Text-Group">
             <p style={{ whiteSpace: 'pre' }}>
-                [Reset ALL]
+                [RESET ALL]
             </p>
         </div>
     )
