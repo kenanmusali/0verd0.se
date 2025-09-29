@@ -16,7 +16,7 @@ import Zoom from '../elements/zoom'
 import Download from '../elements/download'
 import Footer from '../elements/footer'
 
-const Sidebar = ({ onImageUpload }) => {
+const Sidebar = ({ onImageUpload, zoomLevel, onZoomIn, onZoomOut }) => {
     const [showDitherLinks, setShowDitherLinks] = useState(false)
     const [currentDitherMethod, setCurrentDitherMethod] = useState('BITMAP')
 
@@ -25,13 +25,10 @@ const Sidebar = ({ onImageUpload }) => {
     }
 
     const handleMethodSelect = (method) => {
-        // Always close the menu when any method is clicked
         setShowDitherLinks(false)
-        // Always update the current method
         setCurrentDitherMethod(method)
     }
 
-    // If dither links are shown, only display Mark and DitherLinks
     if (showDitherLinks) {
         return (
             <div className='SidebarGroup' style={{ whiteSpace: 'pre' }}>
@@ -39,14 +36,13 @@ const Sidebar = ({ onImageUpload }) => {
                     <Mark />
                     <DitherLinks 
                         onMethodSelect={handleMethodSelect}
-                        currentMethod={currentDitherMethod} // Make sure this is passed!
+                        currentMethod={currentDitherMethod}
                     />
                 </div>
             </div>
         )
     }
 
-    // Normal view
     return (
         <div className='SidebarGroup' style={{ whiteSpace: 'pre' }}>
             <div className="Section">
@@ -55,7 +51,7 @@ const Sidebar = ({ onImageUpload }) => {
                 <Palette />
                 <Dither 
                     onDitherClick={handleDitherClick}
-                    currentMethod={currentDitherMethod} // Make sure this is passed!
+                    currentMethod={currentDitherMethod}
                 />
                 <Factor />
                 <Scale />
@@ -68,7 +64,11 @@ const Sidebar = ({ onImageUpload }) => {
 
             <div className="Section">
                 <Size />
-                <Zoom />
+                <Zoom 
+                    zoomLevel={zoomLevel}
+                    onZoomIn={onZoomIn}
+                    onZoomOut={onZoomOut}
+                />
                 <Download />
                 <Footer />
             </div>

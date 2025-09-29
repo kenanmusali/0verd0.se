@@ -2,11 +2,13 @@ import React, { useState } from 'react'
 import Sidebar from '../layout/sidebar'
 import Mainbar from '../layout/mainbar'
 import useCanvaSize from '../../hook/canvaSize'
+import useZoom from '../../hook/zoom'
 
 const Home = () => {
     const [currentImage, setCurrentImage] = useState(null)
     const [imageDetails, setImageDetails] = useState(null)
     const { canvaSize, updateCanvaSize, resetCanvaSize, calculateResizedDimensions } = useCanvaSize()
+    const { zoomLevel, zoomIn, zoomOut, resetZoom, offset, setOffsetPosition, autoCenter } = useZoom()
 
     const handleImageUpload = (file) => {
         if (file) {
@@ -39,7 +41,10 @@ const Home = () => {
                         wasResized: resized.wasResized
                     }
                     setImageDetails(details)
-                    setCurrentImage(resizedImg) // Use the resized image
+                    setCurrentImage(resizedImg)
+                    // Reset zoom and center when new image is loaded
+                    resetZoom()
+                    autoCenter()
                 };
                 resizedImg.src = canvas.toDataURL();
             }
@@ -51,21 +56,36 @@ const Home = () => {
         setCurrentImage(null)
         setImageDetails(null)
         resetCanvaSize()
+        resetZoom()
+        autoCenter()
     }
 
     const handleDrop = (file) => {
         handleImageUpload(file)
     }
 
+    const handleOffsetChange = (newOffset) => {
+        setOffsetPosition(newOffset);
+    };
+
     return (
         <div className='Container'>
-            <Sidebar onImageUpload={handleImageUpload} />
+            <Sidebar 
+                onImageUpload={handleImageUpload} 
+                zoomLevel={zoomLevel}
+                onZoomIn={zoomIn}
+                onZoomOut={zoomOut}
+            />
             <Mainbar 
                 image={currentImage} 
                 imageDetails={imageDetails}
                 onImageRemove={handleImageRemove}
                 onImageDrop={handleDrop}
                 canvaSize={canvaSize}
+                zoomLevel={zoomLevel}
+                offset={offset}
+                onOffsetChange={handleOffsetChange}
+                onAutoCenter={autoCenter}
             />
         </div>
     )
