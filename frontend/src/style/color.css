@@ -1,0 +1,13 @@
+:root {
+    --section-color: #ffffff;
+    --background-color: #fafafa;
+    --border-color: #ebebeb;
+    --dashed-color: #dfdfdf;
+    --black-color: #000000;
+    --text-highlights-color: rgba(0, 0, 0, 0.5);
+    --shadow-color: rgba(0, 0, 0, 0.2);
+    --scroll-color: #7F7F7F;
+    --track-color: #F5F5F5;
+    --thumb-color: #b6b6b6;
+    
+}

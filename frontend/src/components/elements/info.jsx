@@ -1,12 +1,17 @@
 import React from 'react'
+import Section from '../ux/section'
 
 const Info = () => {
     return (
-        <div className="Text-Group">
-            <p style={{ whiteSpace: 'pre' }}>
-                [MORE INFO]
-            </p>
-        </div>
+        <Section 
+            header="OVERDO.SE"
+            elements={
+                <>
+                    <div>Information content here</div>
+                    <p>Details about the project</p>
+                </>
+            }
+        />
     )
 }
 
