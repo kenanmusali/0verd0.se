@@ -1,12 +1,12 @@
-// import React from 'react'
+import React from 'react'
 
-// const Canva = () => {
-//   return (
-//     <div>Canva</div>
-//   )
-// }
+const Canva = () => {
+  return (
+    <div>Canva</div>
+  )
+}
 
-// export default Canva
+export default Canva
 
 
 

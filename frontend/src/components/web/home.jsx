@@ -1,28 +1,14 @@
-// import React from 'react'
-// import Mainbar from '../layout/mainbar'
-// import Sidebar from '../layout/sidebar'
+import React from 'react'
+import Mainbar from '../layout/mainbar'
+import Sidebar from '../layout/sidebar'
 
-// const home = () => {
-//     return (
-//         <div className='Home'>
-//             <Sidebar />
-//             <Mainbar />
-//         </div>
-//     )
-// }
+const Home = () => {
+    return (
+        <div className='Home'>
+            <Sidebar />
+            <Mainbar />
+        </div>
+    )
+}
 
-// export default 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Home
